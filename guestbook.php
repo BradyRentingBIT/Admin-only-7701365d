@@ -57,16 +57,13 @@ try {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            echo "<script>
-                    alert('Error, invalid email address');
-                  </script>
-            ";
+            echo "<script>alert('Error, invalid email address');</script>";
             return;
         }
 
         $email = $_POST['email'];
         $text = $_POST['text'];
-        $admin = isset($_POST['admin']) ? 1 : 0;
+        $admin = userIsAdmin($conn) ? 1 : 0;
         $color = $_POST['color'];
         $conn->query("INSERT INTO `entries`(`email`, `color`, `admin`, `text`) 
                                         VALUES ('$email', '$color', '$admin', '$text');");
